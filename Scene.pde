@@ -1,4 +1,6 @@
 abstract class Scene {
+  ArrayList<GameObject> objects = new ArrayList<GameObject>();
+  
   void onEnter() {}
   void onExit() {}
   

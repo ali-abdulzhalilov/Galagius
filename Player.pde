@@ -1,12 +1,7 @@
-class Player {
-  PVector pos;
-  PVector dir;
-  float speed;
-  
-  Player(PVector pos, float speed) {
-    this.pos = pos;
-    this.dir = new PVector();
-    this.speed = speed;
+class Player extends GameObject{
+  Player(float x, float y, float speed) {
+    super(x, y, speed);
+    size = 20;
   }
   
   void move(int inX, int inY) {
@@ -18,21 +13,22 @@ class Player {
     pos.x += dir.x * speed;
     pos.y += dir.y * speed;
     
+    pos.x = constrain(pos.x, size/2, width-size/2);
+    pos.y = constrain(pos.y, size/2, height-size/2);
+    
     dir.mult(0);
   }
   
   void display() {
-    float w = 20; // size
-    
     noFill();
     
     stroke(0, 100, 0);
-    ellipse(pos.x, pos.y, w, w); // collision circle
+    ellipse(pos.x, pos.y, size, size); // collision circle
     
     stroke(0, 255, 0);
-    triangle(pos.x, pos.y-w/2, // visual
-             pos.x-w/2, pos.y+w/2,
-             pos.x+w/2, pos.y+w/2);
+    triangle(pos.x,        pos.y-size/2, // visual
+             pos.x-size/2, pos.y+size/2,
+             pos.x+size/2, pos.y+size/2);
     
   }
 }

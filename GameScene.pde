@@ -1,8 +1,19 @@
 class GameScene extends Scene {
   Player p;
+  Bullet b;
   
   GameScene() {
-    p = new Player(new PVector(width/2, height/2), 5);
+    p = new Player(width/2, height/2, 5);
+    objects.add(p);
+    
+    PoolManager.createPool("bullet", new Bullet(1), 50);
+    PoolManager.copyToCurScene("bullet");
+    println(objects.size());
+  }
+  
+  void onEnter() {
+    PoolManager.copyToCurScene("bullet");
+    println(objects.size());
   }
   
   void input() {
@@ -16,18 +27,25 @@ class GameScene extends Scene {
     if (Controls.keyPress(LEFT))  inX -= 1;
     if (Controls.keyPress(RIGHT)) inX += 1;
     p.move(inX, inY);
+    
+    //pool test
+    if (Controls.keyPress(' '))
+      PoolManager.reuseObject("bullet", width/2, height/2, random(2)-1, random(2)-1);
   }
   
   void update() {
-    p.update();
+    for (int i = 0; i < objects.size(); i++) {
+      GameObject go = objects.get(i);
+      go.update();
+    }
   }
   
   void display() {
     background(0);
   
-    fill(255);
-    //rect(20, 200, 100, 50);
-    
-    p.display();
+    for (int i = 0; i < objects.size(); i++) {
+      GameObject go = objects.get(i);
+      go.display();
+    }
   }
 }
