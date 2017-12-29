@@ -1,6 +1,6 @@
 static class Controls {
-  static boolean[] keys = new boolean[255];
-  static boolean[] wasKeys = new boolean[255];
+  static private boolean[] keys = new boolean[255];
+  static private boolean[] wasKeys = new boolean[255];
 
   static void setKey(int k, int kCode, boolean value) {
     if (k == CODED)
