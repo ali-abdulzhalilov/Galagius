@@ -1,19 +1,15 @@
 class GameScene extends Scene {
   Player p;
-  Bullet b;
   
   GameScene() {
     p = new Player(width/2, height/2, 5);
     objects.add(p);
     
-    PoolManager.createPool("bullet", new Bullet(1), 50);
-    PoolManager.copyToCurScene("bullet");
-    println(objects.size());
+    PoolManager.createPool("bullet", new Bullet(10), 50);
   }
   
   void onEnter() {
     PoolManager.copyToCurScene("bullet");
-    println(objects.size());
   }
   
   void input() {
@@ -30,7 +26,7 @@ class GameScene extends Scene {
     
     //pool test
     if (Controls.keyPress(' '))
-      PoolManager.reuseObject("bullet", width/2, height/2, random(2)-1, random(2)-1);
+      p.shoot();
   }
   
   void update() {

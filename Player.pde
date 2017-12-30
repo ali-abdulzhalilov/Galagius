@@ -1,12 +1,24 @@
 class Player extends GameObject{
+  Timer fireRateTimer;
+  float fireRate = 0.05;
+  
   Player(float x, float y, float speed) {
     super(x, y, speed);
     size = 20;
+    fireRateTimer = new Timer();
+    fireRateTimer.start();
   }
   
   void move(int inX, int inY) {
     dir.x = inX;
     dir.y = inY;
+  }
+  
+  void shoot() {
+    if (fireRateTimer.currentTime() >= fireRate) {
+      PoolManager.reuseObject("bullet", pos.x, pos.y-size/2, 0, -1);
+      fireRateTimer.restart();
+    }
   }
   
   void update() {

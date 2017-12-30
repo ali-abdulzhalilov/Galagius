@@ -26,6 +26,10 @@ class Bullet extends GameObject implements IPoolable {
     if (active) {
       pos.x += dir.x * speed;
       pos.y += dir.y * speed;
+      
+      if (pos.x < 0 || pos.x > width ||
+          pos.y < 0 || pos.y > height)
+        destroy();
     }
   }
   
