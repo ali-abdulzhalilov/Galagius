@@ -1,17 +1,12 @@
 class Player extends GameObject{
   Timer fireRateTimer;
-  float fireRate = 0.05;
+  float fireRate = 0.1;
   
   Player(float x, float y, float speed) {
     super(x, y, speed);
     size = 20;
     fireRateTimer = new Timer();
     fireRateTimer.start();
-  }
-  
-  void move(int inX, int inY) {
-    dir.x = inX;
-    dir.y = inY;
   }
   
   void shoot() {
@@ -41,6 +36,5 @@ class Player extends GameObject{
     triangle(pos.x,        pos.y-size/2, // visual
              pos.x-size/2, pos.y+size/2,
              pos.x+size/2, pos.y+size/2);
-    
   }
 }

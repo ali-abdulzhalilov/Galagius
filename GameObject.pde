@@ -10,6 +10,10 @@ abstract class GameObject {
     this.speed = speed;
   }
   
+  void move(int inX, int inY) {
+    dir.x = inX;
+    dir.y = inY;
+  }
   abstract void update();
   abstract void display();
 }

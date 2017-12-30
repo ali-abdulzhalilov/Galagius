@@ -8,7 +8,7 @@ class Timer {
     paused = false;
   }
   
-  void restart() {
+  void restart() { 
     start();
   }
   
@@ -35,6 +35,4 @@ class Timer {
       return timeSoFar;
     }
   }
-
-
 }

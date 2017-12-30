@@ -1,15 +1,22 @@
 class GameScene extends Scene {
   Player p;
+  Timer pewTimer;
+  float pewTime = 0.5f;
   
   GameScene() {
     p = new Player(width/2, height/2, 5);
     objects.add(p);
     
+    pewTimer = new Timer();
+    pewTimer.start();
+    
     PoolManager.createPool("bullet", new Bullet(10), 50);
+    PoolManager.createPool("enemy", new Enemy(5), 10);
   }
   
   void onEnter() {
-    PoolManager.copyToCurScene("bullet");
+    objects.addAll(PoolManager.getPool("bullet"));
+    objects.addAll(PoolManager.getPool("enemy"));
   }
   
   void input() {
@@ -24,12 +31,15 @@ class GameScene extends Scene {
     if (Controls.keyPress(RIGHT)) inX += 1;
     p.move(inX, inY);
     
-    //pool test
-    if (Controls.keyPress(' '))
-      p.shoot();
+    if (Controls.keyPress(' ')) p.shoot();
   }
   
   void update() {
+    if (pewTimer.currentTime() >= pewTime) {
+      PoolManager.reuseObject("enemy", 0, random(width), 1, 0);
+      pewTimer.restart();
+    }
+    
     for (int i = 0; i < objects.size(); i++) {
       GameObject go = objects.get(i);
       go.update();

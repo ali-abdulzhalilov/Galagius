@@ -1,4 +1,4 @@
-class Bullet extends GameObject implements IPoolable {
+class Bullet extends PoolObject{
   boolean active = false;
   
   Bullet(float speed) {
