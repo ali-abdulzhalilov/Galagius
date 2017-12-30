@@ -3,7 +3,7 @@ class Bullet extends PoolObject{
   
   Bullet(float speed) {
     super(0, 0, speed);
-    size = 5;
+    size = 10;
   }
   
   Bullet clone() {
@@ -36,8 +36,8 @@ class Bullet extends PoolObject{
   void display() {
     if (active) {
       stroke(0, 0, 255);
-      line(pos.x,            pos.y,
-           pos.x-dir.x*size, pos.y-dir.y*size);
+      noFill();
+      ellipse(pos.x, pos.y, size, size);
     }
   }
 }

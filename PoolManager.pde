@@ -1,7 +1,7 @@
 static class PoolManager {
   static HashMap<String, ArrayList<PoolObject>> pools = new HashMap<String, ArrayList<PoolObject>>();
   
-  static void createPool(String poolName, PoolObject prototype, int amount) {
+  static <T extends PoolObject> ArrayList<T> createPool(String poolName, PoolObject prototype, int amount) {
     ArrayList<PoolObject> pool = new ArrayList<PoolObject>();
     
     for (int i = 0; i < amount; i++) {
@@ -10,14 +10,23 @@ static class PoolManager {
     }
     
     pools.put(poolName, pool);
+    
+    return getPool(poolName);
   }
   
-  static ArrayList<PoolObject> getPool(String poolName) {
+  static <T extends PoolObject> ArrayList<T> getPool(String poolName) {
     if (pools.containsKey(poolName)) {
-      return pools.get(poolName);
+      ArrayList<T> tmp = new ArrayList<T>();
+      ArrayList<PoolObject> pool = pools.get(poolName);
+      
+      for (int i = 0; i < pool.size(); i++) { //i know, this is not great idea
+        tmp.add((T)pool.get(i));              //but i'll so something with it later, so
+      }                                       //TODO: find a better solution
+      
+      return tmp;
     }
     else {
-      println("there's no pools called " + poolName);
+      println("there's no pool called " + poolName);
       return null;
     }
   }

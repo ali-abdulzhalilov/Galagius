@@ -1,5 +1,7 @@
 class GameScene extends Scene {
   Player p;
+  ArrayList<Bullet> bullets;
+  ArrayList<Enemy> enemies;
   Timer pewTimer;
   float pewTime = 0.5f;
   
@@ -10,8 +12,8 @@ class GameScene extends Scene {
     pewTimer = new Timer();
     pewTimer.start();
     
-    PoolManager.createPool("bullet", new Bullet(10), 50);
-    PoolManager.createPool("enemy", new Enemy(5), 10);
+    bullets = PoolManager.createPool("bullet", new Bullet(10), 50);
+    enemies = PoolManager.createPool("enemy", new Enemy(5), 10);
   }
   
   void onEnter() {
@@ -43,6 +45,21 @@ class GameScene extends Scene {
     for (int i = 0; i < objects.size(); i++) {
       GameObject go = objects.get(i);
       go.update();
+    }
+    
+    for (int i = 0; i < bullets.size(); i++) {
+      Bullet b = bullets.get(i);
+      if (b.active) {
+        for (int j = 0; j < enemies.size(); j++) {
+          Enemy e = enemies.get(j);
+          if (e.active) {
+            if (Physics.isCirclesTouch(b.pos, b.size/2, e.pos, e.size/2)) {
+              b.destroy();
+              e.destroy();
+            }
+          }
+        }
+      }
     }
   }
   

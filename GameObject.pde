@@ -13,6 +13,7 @@ abstract class GameObject {
   void move(int inX, int inY) {
     dir.x = inX;
     dir.y = inY;
+    dir.normalize();
   }
   abstract void update();
   abstract void display();

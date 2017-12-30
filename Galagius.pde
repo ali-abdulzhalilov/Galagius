@@ -1,5 +1,6 @@
 void settings() {
   size(480, 640);
+  
 }
 
 void setup() {
