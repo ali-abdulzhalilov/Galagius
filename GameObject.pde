@@ -15,6 +15,6 @@ abstract class GameObject {
     dir.y = inY;
     dir.normalize();
   }
-  abstract void update();
+  abstract void update(float dt);
   abstract void display();
 }

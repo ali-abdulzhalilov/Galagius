@@ -1,13 +1,15 @@
 class Bullet extends PoolObject{
-  boolean active = false;
+  float range;
+  private PVector startPos;
   
-  Bullet(float speed) {
+  Bullet(float speed, float range) {
     super(0, 0, speed);
-    size = 10;
+    this.size = 10;
+    this.range = range;
   }
   
   Bullet clone() {
-    return new Bullet(speed);
+    return new Bullet(speed, range);
   }
   
   void onReuse(float x, float y, float dx, float dy) {
@@ -16,19 +18,21 @@ class Bullet extends PoolObject{
     dir.x = dx;
     dir.y = dy;
     active = true;
+    startPos = new PVector(x, y);
   }
   
   void destroy() {
     active = false;
   }
   
-  void update() {
+  void update(float dt) {
     if (active) {
-      pos.x += dir.x * speed;
-      pos.y += dir.y * speed;
+      pos.x += dir.x * speed * dt;
+      pos.y += dir.y * speed * dt;
       
-      if (pos.x < 0 || pos.x > width ||
-          pos.y < 0 || pos.y > height)
+      if ((pos.x < 0 || pos.x > width ||
+           pos.y < 0 || pos.y > height) ||
+           dist(pos.x, pos.y, startPos.x, startPos.y) > range)
         destroy();
     }
   }

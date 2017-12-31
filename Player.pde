@@ -11,16 +11,22 @@ class Player extends GameObject{
   
   void shoot() {
     if (fireRateTimer.currentTime() >= fireRate) {
-      PoolManager.reuseObject("bullet", pos.x+size/2, pos.y-size/2, 0.5, -1);
-      PoolManager.reuseObject("bullet", pos.x, pos.y-size/2, 0, -1);
-      PoolManager.reuseObject("bullet", pos.x-size/2, pos.y-size/2, -0.5, -1);
+      PoolManager.reuseObject("bullet", pos.x+size     , pos.y-size/2,     1, -1);
+      PoolManager.reuseObject("bullet", pos.x+size*0.75, pos.y-size/2,  0.75, -1);
+      PoolManager.reuseObject("bullet", pos.x+size*0.5 , pos.y-size/2,   0.5, -1);
+      PoolManager.reuseObject("bullet", pos.x+size*0.25, pos.y-size/2,  0.25, -1);
+      PoolManager.reuseObject("bullet", pos.x          , pos.y-size/2,     0, -1);
+      PoolManager.reuseObject("bullet", pos.x-size*0.25, pos.y-size/2, -0.25, -1);
+      PoolManager.reuseObject("bullet", pos.x-size*0.5 , pos.y-size/2,  -0.5, -1);
+      PoolManager.reuseObject("bullet", pos.x-size*0.75, pos.y-size/2, -0.75, -1);
+      PoolManager.reuseObject("bullet", pos.x-size     , pos.y-size/2,    -1, -1);
       fireRateTimer.restart();
     }
   }
   
-  void update() {
-    pos.x += dir.x * speed;
-    pos.y += dir.y * speed;
+  void update(float dt) {
+    pos.x += dir.x * speed * dt;
+    pos.y += dir.y * speed * dt;
     
     pos.x = constrain(pos.x, size/2, width-size/2);
     pos.y = constrain(pos.y, size/2, height-size/2);

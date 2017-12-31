@@ -2,23 +2,35 @@ class GameScene extends Scene {
   Player p;
   ArrayList<Bullet> bullets;
   ArrayList<Enemy> enemies;
-  Timer pewTimer;
+  
+  Timer pewTimer; // enemy spawn timer
   float pewTime = 0.5f;
   
   GameScene() {
-    p = new Player(width/2, height/2, 5);
+    p = new Player(width/2, height/2, 250);
     objects.add(p);
     
     pewTimer = new Timer();
     pewTimer.start();
     
-    bullets = PoolManager.createPool("bullet", new Bullet(10), 50);
-    enemies = PoolManager.createPool("enemy", new Enemy(5), 10);
+    tickTimer = new Timer();
+    tickTimer.start();
+    oldTickTime = tickTimer.currentTime();
+    
+    bullets = PoolManager.createPool("bullet", new Bullet(500, 150), 50);
+    enemies = PoolManager.createPool("enemy", new Enemy(250), 10);
   }
   
   void onEnter() {
+    super.onEnter();
+    
     objects.addAll(PoolManager.getPool("bullet"));
     objects.addAll(PoolManager.getPool("enemy"));
+    
+    HashSet hs = new HashSet(); //to prevent duplicates
+                hs.addAll(objects);
+                objects.clear();
+                objects.addAll(hs);
   }
   
   void input() {
@@ -36,7 +48,7 @@ class GameScene extends Scene {
     if (Controls.keyPress(' ')) p.shoot();
   }
   
-  void update() {
+  void update(float dt) {
     if (pewTimer.currentTime() >= pewTime) {
       PoolManager.reuseObject("enemy", 0, random(width), 1, 0);
       pewTimer.restart();
@@ -44,7 +56,7 @@ class GameScene extends Scene {
     
     for (int i = 0; i < objects.size(); i++) {
       GameObject go = objects.get(i);
-      go.update();
+      go.update(dt);
     }
     
     for (int i = 0; i < bullets.size(); i++) {

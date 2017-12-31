@@ -2,9 +2,10 @@ class MenuScene extends Scene {
   
   void input() {
     if (Controls.keyDown(ESC)) exit();
+    if (Controls.keyDown(' ')) SceneManager.setScene("game");
   }
   
-  void update() {
+  void update(float dt) {
     
   }
   

@@ -1,3 +1,5 @@
+import java.util.*;
+
 void settings() {
   size(480, 640);
   

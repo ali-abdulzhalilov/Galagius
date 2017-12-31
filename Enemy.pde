@@ -1,5 +1,4 @@
 class Enemy extends PoolObject{
-  boolean active = false;
   
   Enemy(float speed) {
     super(0, 0, speed);
@@ -22,10 +21,10 @@ class Enemy extends PoolObject{
     active = false;
   }
   
-  void update() {
+  void update(float dt) {
     if (active) {
-      pos.x += dir.x * speed;
-      pos.y += dir.y * speed;
+      pos.x += dir.x * speed * dt;
+      pos.y += dir.y * speed * dt;
       
       if (pos.x > width) destroy();
       //dir.mult(0);
