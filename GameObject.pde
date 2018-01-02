@@ -10,7 +10,7 @@ abstract class GameObject {
     this.speed = speed;
   }
   
-  void move(int inX, int inY) {
+  void move(float inX, float inY) {
     dir.x = inX;
     dir.y = inY;
     dir.normalize();

@@ -40,7 +40,7 @@ class Bullet extends PoolObject{
   void display() {
     if (active) {
       stroke(0, 0, 255);
-      noFill();
+      fill(50, 50, 255);
       ellipse(pos.x, pos.y, size, size);
     }
   }

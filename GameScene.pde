@@ -17,8 +17,23 @@ class GameScene extends Scene {
     tickTimer.start();
     oldTickTime = tickTimer.currentTime();
     
+    Selector rootSel = new Selector("root");
+    Sequence closeSeq = new Sequence("close");
+    
+    MoveTo moveTo = new MoveTo("pew", 10);
+    GetRandomPoint getPoint = new GetRandomPoint("pew");
+    IsTooCloseToPoint isTooClose = new IsTooCloseToPoint("pew", 10);
+    
+    rootSel.addNode(closeSeq);
+    rootSel.addNode(moveTo);
+    
+    closeSeq.addNode(isTooClose);
+    closeSeq.addNode(getPoint);
+    
+    BehaviorTree pew = new BehaviorTree(rootSel, false);
+    
     bullets = PoolManager.createPool("bullet", new Bullet(500, 150), 50);
-    enemies = PoolManager.createPool("enemy", new Enemy(250), 10);
+    enemies = PoolManager.createPool("enemy", new Enemy(pew, 250, 20), 10);
   }
   
   void onEnter() {
@@ -28,9 +43,9 @@ class GameScene extends Scene {
     objects.addAll(PoolManager.getPool("enemy"));
     
     HashSet hs = new HashSet(); //to prevent duplicates
-                hs.addAll(objects);
-                objects.clear();
-                objects.addAll(hs);
+                 hs.addAll(objects);
+                 objects.clear();
+                 objects.addAll(hs);
   }
   
   void input() {
@@ -50,7 +65,7 @@ class GameScene extends Scene {
   
   void update(float dt) {
     if (pewTimer.currentTime() >= pewTime) {
-      PoolManager.reuseObject("enemy", 0, random(width), 1, 0);
+      PoolManager.reuseObject("enemy", random(width), random(height), 1, 0);
       pewTimer.restart();
     }
     
