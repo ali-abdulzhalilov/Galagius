@@ -50,7 +50,13 @@ class GameScene extends Scene {
   
   void update(float dt) {
     if (pewTimer.currentTime() >= pewTime) {
-      PoolManager.reuseObject("enemy", random(width), random(height), 1, 0);
+      ArrayList<PVector> waypoints = new ArrayList<PVector>();
+      for (int i = 0; i < 5; i++) {
+        waypoints.add(new PVector(random(width), random(height)));
+      }
+      
+      Enemy someEnemy = (Enemy)PoolManager.reuseObject("enemy", random(width), random(height), 1, 0);
+      someEnemy.make_waypoints(waypoints);
       pewTimer.restart();
     }
     

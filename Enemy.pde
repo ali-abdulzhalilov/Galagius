@@ -1,10 +1,11 @@
 class Enemy extends PoolObject{
-  HashMap<String, Object> data; //blackboard
+  ArrayList<PVector> waypoints;
+  int curWaypointIndex = 0;
   
   Enemy(float speed, float size) {
     super(0, 0, speed);
-    this.data = new HashMap<String, Object>();
     this.size = size;
+    this.waypoints = new ArrayList<PVector>();
   }
   
   Enemy clone() {
@@ -17,6 +18,14 @@ class Enemy extends PoolObject{
     dir.x = dx;
     dir.y = dy;
     active = true;
+    
+    for (int i = 0; i < 5; i++) {
+      waypoints.add(new PVector(random(width), random(height)));
+    }
+  }
+  
+  void make_waypoints(ArrayList<PVector> waypoints) {
+    this.waypoints = waypoints;
   }
   
   void destroy() {
@@ -25,12 +34,24 @@ class Enemy extends PoolObject{
   
   void update(float dt) {
     if (active) {
+      think();
       
       pos.x += dir.x * speed * dt;
       pos.y += dir.y * speed * dt;
       
       if (pos.x > width) destroy();
       dir.mult(0);
+    }
+  }
+  
+  void think() {
+    if (waypoints.size() == 0) 
+      destroy();
+    else {
+      PVector point = waypoints.get(0);
+      move(point.x-pos.x, point.y-pos.y);
+      if (dist(point.x, point.y, pos.x, pos.y) < size)
+        waypoints.remove(0);
     }
   }
   
