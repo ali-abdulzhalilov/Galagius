@@ -17,23 +17,8 @@ class GameScene extends Scene {
     tickTimer.start();
     oldTickTime = tickTimer.currentTime();
     
-    Selector rootSel = new Selector("root");
-    Sequence closeSeq = new Sequence("close");
-    
-    MoveTo moveTo = new MoveTo("pew", 10);
-    GetRandomPoint getPoint = new GetRandomPoint("pew");
-    IsTooCloseToPoint isTooClose = new IsTooCloseToPoint("pew", 10);
-    
-    rootSel.addNode(closeSeq);
-    rootSel.addNode(moveTo);
-    
-    closeSeq.addNode(isTooClose);
-    closeSeq.addNode(getPoint);
-    
-    BehaviorTree pew = new BehaviorTree(rootSel, false);
-    
     bullets = PoolManager.createPool("bullet", new Bullet(500, 150), 50);
-    enemies = PoolManager.createPool("enemy", new Enemy(pew, 250, 20), 10);
+    enemies = PoolManager.createPool("enemy", new Enemy(250, 20), 10);
   }
   
   void onEnter() {

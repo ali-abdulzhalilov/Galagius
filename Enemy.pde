@@ -1,16 +1,14 @@
 class Enemy extends PoolObject{
-  BehaviorTree tree;
   HashMap<String, Object> data; //blackboard
   
-  Enemy(BehaviorTree tree, float speed, float size) {
+  Enemy(float speed, float size) {
     super(0, 0, speed);
-    this.tree = tree;
     this.data = new HashMap<String, Object>();
     this.size = size;
   }
   
   Enemy clone() {
-    return new Enemy(tree, speed, size);
+    return new Enemy(speed, size);
   }
   
   void onReuse(float x, float y, float dx, float dy) {
@@ -19,7 +17,6 @@ class Enemy extends PoolObject{
     dir.x = dx;
     dir.y = dy;
     active = true;
-    tree.reset(this);
   }
   
   void destroy() {
@@ -28,7 +25,6 @@ class Enemy extends PoolObject{
   
   void update(float dt) {
     if (active) {
-      tree.tick(this);
       
       pos.x += dir.x * speed * dt;
       pos.y += dir.y * speed * dt;
